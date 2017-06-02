@@ -6,10 +6,10 @@ import (
 )
 
 func statusHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "files/status")
+	http.ServeFile(w, r, "static/status")
 }
 func status_ascHandler(w http.ResponseWriter, r *http.Request) {
-	  http.ServeFile(w, r, "files/status.asc")
+	  http.ServeFile(w, r, "static/status.asc")
 
 }
 func main() {
