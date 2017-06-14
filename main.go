@@ -5,6 +5,8 @@ import (
 	"log"
 	"strings"
 	"net/http"
+	"io/ioutil"
+    "net/url"
 )
 
 func statusHandler(w http.ResponseWriter, r *http.Request) {
@@ -15,12 +17,20 @@ func status_ascHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 func home(w http.ResponseWriter, r *http.Request) {
-    r.ParseForm() 
-    for k, v := range r.Form {
-        fmt.Print(k , ": ")
-        fmt.Println(strings.Join(v, ""))
+    if r.Method == "POST"{
+        body, _ := ioutil.ReadAll(r.Body)
+        values, _ := url.ParseQuery(string(body))
+        for v , k := range values{
+            fmt.Println(v , strings.Join(k, ""))
+        }
     }
-    fmt.Fprintf(w, "Hello VLC!")
+    if r.Method == "GET"{
+        r.ParseForm() 
+        for k, v := range r.Form {
+            fmt.Println(v , strings.Join(k, ""))
+        }
+
+    }
 }
 
 func main() {
