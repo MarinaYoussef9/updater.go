@@ -12,9 +12,19 @@ import (
     "io/ioutil"
     "net/url"
     "time"
+    "html/template"
+
 )
+type Page struct{
+    Body []string
+}
 func homepage(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintln(w , "What the fuck!")
+    data, _ := readLines("in.txt") 
+    //data := "Marco"
+    t, _ := template.ParseFiles("templates/home.html")
+    p := Page{Body : data}
+    t.Execute(w , p)
+    
 }
 func statusHandler(w http.ResponseWriter, r *http.Request) {
     http.ServeFile(w, r, "static/status")
