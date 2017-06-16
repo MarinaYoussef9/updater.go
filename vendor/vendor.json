@@ -1,0 +1,13 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "mwAiHAScB48dazJ7Nbtix2ipsyo=",
+			"path": "updater/util",
+			"revision": "d83ea129db5ef58cd55e206563e2fac3c0c752e1",
+			"revisionTime": "2017-06-15T10:28:51Z"
+		}
+	],
+	"rootPath": "vlc-trialserver.go"
+}
