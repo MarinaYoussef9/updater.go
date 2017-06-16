@@ -8,6 +8,8 @@ import (
     "net/url"
     "time"
     "html/template"
+    "database/sql"
+    _ "github.com/lib/pq"
 
     "updater/util"
 )
@@ -61,7 +63,18 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
+    psqlInfo := "host=localhost dbname=updater user=updater password=updater sslmode=disable"
+    db, err := sql.Open("postgres", psqlInfo)
+    if err != nil {
+        panic(err)
+    }
+    defer db.Close()
+    
+    err = db.Ping()
+    if err != nil {
+        panic(err)
+    }
+    
     http.HandleFunc("/", home) 
     http.HandleFunc("/home", homepage) 
     http.HandleFunc("/vlc/status", statusHandler)
