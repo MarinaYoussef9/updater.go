@@ -1,5 +1,5 @@
 // TODO : Use Gin package 
-package router
+package server
 import (
     
     "net/http"
