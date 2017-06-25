@@ -1,40 +1,50 @@
 package model
 
 import (
-	//	"log"
 	"github.com/jinzhu/gorm"
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" // for database
+	"time"
 )
 
-type Update_Request struct {
+// UpdateRequest database model
+type UpdateRequest struct {
 	//gorm.Model
-	//ID          uint   `gorm:"primary_key"`
-	OS      string `json:os`
-	OS_VER  string `json:os_ver`
-	OS_ARCH string `js:os_arch`
-	VLC_VER string `json:vlc_ver`
+	ID        uint      `gorm:"primary_key"`
+	CreatedAt time.Time `gorm:column:createdAt`
+	Channel   string    `form:"channel"`
+	OS        string    `form:"os"`
+	OsVer     string    `form:"os_ver"`
+	OsArch    string    `form:"os_arch"`
+	VlcVer    string    `form:"vlc_ver"`
+	IP        string    `form:"ip"`
 }
+
+// Impl is handling gorm
 type Impl struct {
 	DB *gorm.DB
 }
 
+// ConnectDB initiate the database
 func (i *Impl) ConnectDB() {
 	// TODO : Move the psqlinfo to config & handle config/yml
 	psqlInfo := "host=localhost dbname=marcoied user=postgres password=postgres sslmode=disable"
 	i.DB, _ = gorm.Open("postgres", psqlInfo)
 	i.DB.LogMode(true)
-	i.DB.AutoMigrate(&Update_Request{})
+	i.DB.AutoMigrate(&UpdateRequest{})
 }
 
-func (i *Impl) NewRequest(r Update_Request) {
-	i.DB.Create(r)
+// NewRequest add/create new update request
+func (i *Impl) NewRequest(r UpdateRequest) {
+	i.DB.Create(&r)
 }
 
-func (i *Impl) AllRequests(r []Update_Request) []Update_Request {
-	i.DB.Find(&r)
+//AllRequests return all requests under specific channel
+func (i *Impl) AllRequests(r []UpdateRequest, ch string) []UpdateRequest {
+	i.DB.Where("channel = ?", ch).Find(&r)
 	return r
 }
 
+//CloseDB endup using the database
 func (i *Impl) CloseDB() {
 	i.DB.Close()
 }
