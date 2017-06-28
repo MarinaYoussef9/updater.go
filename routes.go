@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/xmarcoied/updater.go/model"
+	"github.com/xmarcoied/go-updater/model"
 	"log"
 	"net/http"
 )
